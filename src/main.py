@@ -2,9 +2,12 @@ from audio_loader import load_audio, duration
 from speech_detector import detect_speech
 from timeline import build_timeline
 from aligner import compare_segments, generate_alignment_plan
+from audio_editor import apply_alignment
+from exporter import save_audio
 
 URDU_PATH = "data/urdu2.wav"
 SINDHI_PATH = "data/sindhi2.wav"
+ALIGNED_PATH = "data/aligned_sindhi.wav"
 
 urdu_audio, urdu_sr = load_audio(
     URDU_PATH
@@ -68,3 +71,6 @@ plan = generate_alignment_plan(
 )
 print("\n--- Global Plan ---")
 print(plan)
+
+aligned_audio = apply_alignment(sindhi_audio, sindhi_sr, plan)
+save_audio(aligned_audio, sindhi_sr, ALIGNED_PATH)
