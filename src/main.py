@@ -1,7 +1,7 @@
 from audio_loader import load_audio, duration
 from speech_detector import detect_speech
 from timeline import build_timeline
-from aligner import compare_segments
+from aligner import compare_segments, generate_alignment_plan
 
 URDU_PATH = "data/urdu2.wav"
 SINDHI_PATH = "data/sindhi2.wav"
@@ -62,3 +62,9 @@ report = compare_segments(
 print("\nAlignment Report:")
 for item in report:
     print(item)
+
+plan = generate_alignment_plan(
+    urdu_timeline, sindhi_timeline, report
+)
+print("\n--- Global Plan ---")
+print(plan)
