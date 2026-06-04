@@ -20,6 +20,9 @@ print(
     duration(sindhi_audio, sindhi_sr)
 )
 
+print("Urdu SR:", urdu_sr)
+print("Sindhi SR:", sindhi_sr)
+
 print("\n--- Urdu Speech Segments ---")
 
 segments, sr = detect_speech(URDU_PATH)
