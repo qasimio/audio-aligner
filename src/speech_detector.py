@@ -34,7 +34,5 @@ def detect_speech(audio_path):
         model, 
         sampling_rate=sr,
     )
-    print("Original SR:", sr)
-    print("Resampled SR:", target_sr)
 
     return timestamps, sr

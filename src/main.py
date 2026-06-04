@@ -1,5 +1,6 @@
 from audio_loader import load_audio, duration
 from speech_detector import detect_speech
+from timeline import build_timeline
 
 URDU_PATH = "data/urdu1.wav"
 SINDHI_PATH = "data/sindhi1.wav"
@@ -19,9 +20,6 @@ print(
     "\nSindhi Duration:",
     duration(sindhi_audio, sindhi_sr)
 )
-
-print("Urdu SR:", urdu_sr)
-print("Sindhi SR:", sindhi_sr)
 
 print("\n--- Urdu Speech Segments ---")
 
@@ -44,3 +42,8 @@ for seg in segments:
     
     print(f"{start:.2f}s -> {end:.2f}s")
 
+segments, sr = detect_speech(SINDHI_PATH)
+timeline = build_timeline(segments, sr)
+print("\n--- Sindhi Timeline ---")
+for item in timeline:
+    print(item)
