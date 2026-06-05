@@ -5,9 +5,9 @@ from aligner import compare_segments, generate_alignment_plan
 from audio_editor import apply_alignment
 from exporter import save_audio
 
-URDU_PATH = "data/urdu2.wav"
-SINDHI_PATH = "data/sindhi2.wav"
-ALIGNED_PATH = "data/aligned_sindhi.wav"
+URDU_PATH = "data/urdu1.wav"
+SINDHI_PATH = "data/sindhi1.wav"
+ALIGNED_PATH = "data/aligned_sindhi1.wav"
 
 urdu_audio, urdu_sr = load_audio(
     URDU_PATH
@@ -74,45 +74,6 @@ plan = generate_alignment_plan(
 print("\n--- Global Plan ---")
 print(plan)
 
-print("\n--- Duration Debug ---")
-
-print(
-    "Urdu File Duration:",
-    duration(
-        urdu_audio,
-        urdu_sr,
-    )
-)
-
-print(
-    "Sindhi File Duration:",
-    duration(
-        sindhi_audio,
-        sindhi_sr,
-    )
-)
-
-print(
-    "Urdu Last Speech End:",
-    urdu_timeline[-1]["end"]
-)
-
-print(
-    "Sindhi Last Speech End:",
-    sindhi_timeline[-1]["end"]
-)
-
 aligned_audio = apply_alignment(sindhi_audio, sindhi_sr, plan)
-
-print("\n--- Audio Debug ---")
-
-print(type(aligned_audio))
-
-try:
-    print(aligned_audio.shape)
-except:
-    print("No shape attribute")
-
-print(len(aligned_audio))
 
 save_audio(aligned_audio, sindhi_sr, ALIGNED_PATH)
