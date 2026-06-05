@@ -4,10 +4,11 @@ from timeline import build_timeline
 from aligner import compare_segments, generate_alignment_plan
 from audio_editor import apply_alignment
 from exporter import save_audio
+from ffmpeg_stretcher import stretch_audio
 
-URDU_PATH = "data/urdu1.wav"
-SINDHI_PATH = "data/sindhi1.wav"
-ALIGNED_PATH = "data/aligned_sindhi1.wav"
+URDU_PATH = "data/urdu2.wav"
+SINDHI_PATH = "data/sindhi2.wav"
+ALIGNED_PATH = "data/aligned_sindhi2.wav"
 
 urdu_audio, urdu_sr = load_audio(
     URDU_PATH
@@ -76,4 +77,13 @@ print(plan)
 
 aligned_audio = apply_alignment(sindhi_audio, sindhi_sr, plan)
 
-save_audio(aligned_audio, sindhi_sr, ALIGNED_PATH)
+ratio = plan["avg_ratio"]
+aligned_audio, aligned_sr = stretch_audio(aligned_audio, sindhi_sr, ratio)
+
+
+save_audio(aligned_audio, aligned_sr, ALIGNED_PATH)
+
+print("\n--- Final Verification ---")
+print("Target Ratio:", ratio)
+final_audio, final_sr = load_audio(ALIGNED_PATH)
+print("Final Duration:", duration(final_audio, final_sr))
