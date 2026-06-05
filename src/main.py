@@ -103,4 +103,16 @@ print(
 )
 
 aligned_audio = apply_alignment(sindhi_audio, sindhi_sr, plan)
+
+print("\n--- Audio Debug ---")
+
+print(type(aligned_audio))
+
+try:
+    print(aligned_audio.shape)
+except:
+    print("No shape attribute")
+
+print(len(aligned_audio))
+
 save_audio(aligned_audio, sindhi_sr, ALIGNED_PATH)

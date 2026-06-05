@@ -44,5 +44,6 @@ def apply_alignment(audio, sr, plan):
         audio = trim_end(audio, trailing_shift, sr)
 
     elif trailing_shift < 0:
-        audio = pad_end(audio, abs(leading_shift), sr)
+        audio = pad_end(audio, abs(trailing_shift), sr)
 
+    return audio
