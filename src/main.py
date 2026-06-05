@@ -67,10 +67,40 @@ for item in report:
     print(item)
 
 plan = generate_alignment_plan(
-    urdu_timeline, sindhi_timeline, report
+    urdu_timeline, sindhi_timeline, report,
+    duration(urdu_audio, urdu_sr),
+    duration(sindhi_audio, sindhi_sr)
 )
 print("\n--- Global Plan ---")
 print(plan)
+
+print("\n--- Duration Debug ---")
+
+print(
+    "Urdu File Duration:",
+    duration(
+        urdu_audio,
+        urdu_sr,
+    )
+)
+
+print(
+    "Sindhi File Duration:",
+    duration(
+        sindhi_audio,
+        sindhi_sr,
+    )
+)
+
+print(
+    "Urdu Last Speech End:",
+    urdu_timeline[-1]["end"]
+)
+
+print(
+    "Sindhi Last Speech End:",
+    sindhi_timeline[-1]["end"]
+)
 
 aligned_audio = apply_alignment(sindhi_audio, sindhi_sr, plan)
 save_audio(aligned_audio, sindhi_sr, ALIGNED_PATH)

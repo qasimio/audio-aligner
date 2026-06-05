@@ -64,7 +64,7 @@ def compare_segments(urdu_timeline, sindhi_timeline):
     return report
 
 def generate_alignment_plan(
-    urdu_timeline, sindhi_timeline, report):
+    urdu_timeline, sindhi_timeline, report, urdu_duration, sindhi_duration):
 
     urdu_first_speech = next(
         x for x in urdu_timeline
@@ -84,13 +84,21 @@ def generate_alignment_plan(
         if x["type"] == "speech"
     ][-1]
 
+    # leading silence difference
+
     leading_shift = (
         sindhi_first_speech["start"] - urdu_first_speech["start"]
     )
-    trailing_shift = (
-        sindhi_last_speech["end"] - urdu_last_speech["end"]
-    )
 
+    # trailing silence difference
+    urdu_end_gap = (
+        urdu_duration - urdu_last_speech["end"]
+    )
+    sindhi_end_gap = (
+        sindhi_duration - sindhi_last_speech["end"]
+    )
+    trailing_shift = (sindhi_end_gap - urdu_end_gap)
+    
     ratios = [item["ratio"] for item in report]
 
     avg_ratio = (mean(ratios) if ratios else 1)
@@ -100,4 +108,6 @@ def generate_alignment_plan(
         "trailing_shift": round(trailing_shift, 3),
         "avg_ratio": round(avg_ratio, 4),
         "recommended_action": "compress" if avg_ratio < 0.98 else "expand" if avg_ratio > 1.02 else "keep",
+        "urdu_end_gap": round(urdu_end_gap, 3),
+        "sindhi_end_gap": round(sindhi_end_gap, 3)
     }
